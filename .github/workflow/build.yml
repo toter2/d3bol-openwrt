@@ -1,0 +1,77 @@
+name: Build packages & publish feed
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ "packages/**", "scripts/**", "site-static/**", ".github/workflows/**" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq meson ninja-build pkg-config libssl-dev zlib1g-dev xz-utils python3-cryptography
+
+      - name: Build apk-tools v3
+        run: |
+          # same apk-tools release OpenWrt 25.12 ships (package/system/apk: 3.0.5)
+          git clone -q --depth 1 --branch v3.0.5 https://github.com/alpinelinux/apk-tools.git /tmp/apk-tools
+          cd /tmp/apk-tools
+          meson setup build -Dlua=disabled -Ddocs=disabled -Dtests=disabled -Dhelp=disabled >/dev/null
+          ninja -C build >/dev/null
+          echo "APK=/tmp/apk-tools/build/src/apk" >> "$GITHUB_ENV"
+
+      - name: Signing keys
+        env:
+          APK_SIGN_KEY: ${{ secrets.APK_SIGN_KEY }}
+          USIGN_SECRET_KEY: ${{ secrets.USIGN_SECRET_KEY }}
+        run: |
+          test -n "$APK_SIGN_KEY" || { echo "::error::secret APK_SIGN_KEY missing"; exit 1; }
+          test -n "$USIGN_SECRET_KEY" || { echo "::error::secret USIGN_SECRET_KEY missing"; exit 1; }
+          umask 077
+          printf '%s\n' "$APK_SIGN_KEY" > /tmp/apk.key
+          printf '%s\n' "$USIGN_SECRET_KEY" > /tmp/usign.key
+          echo "APK_KEY=/tmp/apk.key" >> "$GITHUB_ENV"
+          echo "USIGN_KEY=/tmp/usign.key" >> "$GITHUB_ENV"
+
+      - name: Build packages and feed
+        run: |
+          BASE="https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}"
+          sh scripts/build-all.sh "$BASE"
+
+      - name: Wipe keys
+        if: always()
+        run: rm -f /tmp/apk.key /tmp/usign.key
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: packages
+          path: out/*
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
