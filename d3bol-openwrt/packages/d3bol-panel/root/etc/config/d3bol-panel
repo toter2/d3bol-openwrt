@@ -1,8 +1,0 @@
-
-config d3bol-panel 'config'
-	option enabled '1'
-	option address '0.0.0.0:2017'
-	option ipv6_support 'off'
-	option core 'auto'
-	option profile 'min'
-	option log_level 'warning'

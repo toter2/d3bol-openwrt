@@ -1,8 +1,0 @@
-#!/bin/sh
-[ -n "${IPKG_INSTROOT}" ] && exit 0
-chmod 755 /usr/sbin/d3bol-split /etc/init.d/d3bol-split /usr/share/d3bol-split/loop.sh
-rm -rf /tmp/luci-indexcache* /tmp/luci-modulecache
-/etc/init.d/rpcd restart
-/etc/init.d/d3bol-split enable
-/etc/init.d/d3bol-split restart
-exit 0

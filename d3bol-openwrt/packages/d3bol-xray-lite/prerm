@@ -1,6 +1,0 @@
-#!/bin/sh
-[ -n "${IPKG_INSTROOT}" ] && exit 0
-[ -f /etc/d3bol-lite/on ] && /usr/sbin/d3bol-lite off
-/etc/init.d/d3bol-lite disable 2>/dev/null
-rm -rf /tmp/d3bol-lite
-exit 0

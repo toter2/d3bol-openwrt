@@ -1,5 +1,0 @@
-speedtest.net
-ookla.com
-ooklaserver.net
-speedtestcustom.com
-# سيرفرات القياس تختلف، استخدم تعلّم حتى تنضاف

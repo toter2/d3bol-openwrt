@@ -1,5 +1,0 @@
-#!/bin/sh
-[ -n "${IPKG_INSTROOT}" ] && exit 0
-/etc/init.d/d3bol-split stop
-/etc/init.d/d3bol-split disable
-exit 0
