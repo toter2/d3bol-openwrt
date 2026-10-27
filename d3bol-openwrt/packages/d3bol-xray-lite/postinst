@@ -1,0 +1,5 @@
+#!/bin/sh
+[ -n "${IPKG_INSTROOT}" ] && exit 0
+# the lite service is only enabled by "d3bol-lite on" (or the switch in D3BOL Split)
+/etc/init.d/d3bol-lite disable 2>/dev/null
+exit 0

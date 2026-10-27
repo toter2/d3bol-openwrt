@@ -1,0 +1,18 @@
+{
+	"luci-app-d3bol-panel": {
+		"description": "Grant access to D3BOL Panel configuration",
+		"read": {
+			"file": {
+				"/tmp/d3bol-panel/xray.log": [ "read" ],
+				"/tmp/d3bol-panel.port": [ "read" ]
+			},
+			"ubus": {
+				"service": [ "list" ]
+			},
+			"uci": [ "d3bol-panel" ]
+		},
+		"write": {
+			"uci": [ "d3bol-panel" ]
+		}
+	}
+}

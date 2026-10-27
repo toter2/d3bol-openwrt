@@ -1,0 +1,15 @@
+{
+	"luci-app-d3bol-split": {
+		"description": "Grant access to D3BOL app isolation",
+		"read": {
+			"ubus": {
+				"luci.d3bol_split": [ "status", "history", "clients", "diag", "get_list", "learn_status", "lite_status" ]
+			}
+		},
+		"write": {
+			"ubus": {
+				"luci.d3bol_split": [ "toggle", "save_list", "app_save", "app_delete", "learn_start", "learn_stop", "refresh", "service", "set_brand", "lite_switch" ]
+			}
+		}
+	}
+}

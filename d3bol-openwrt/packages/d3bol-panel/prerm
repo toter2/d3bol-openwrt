@@ -1,0 +1,9 @@
+#!/bin/sh
+[ -n "${IPKG_INSTROOT}" ] && exit 0
+/etc/init.d/d3bol-core stop; /etc/init.d/d3bol-core disable
+/etc/init.d/d3bol-panel stop; /etc/init.d/d3bol-panel disable
+# hand the router back to v2rayA if the panel had taken over
+if grep -q '"takeover": true' /etc/d3bol-panel/settings.json 2>/dev/null && [ -x /etc/init.d/v2raya ]; then
+	/etc/init.d/v2raya enable; /etc/init.d/v2raya start
+fi
+exit 0

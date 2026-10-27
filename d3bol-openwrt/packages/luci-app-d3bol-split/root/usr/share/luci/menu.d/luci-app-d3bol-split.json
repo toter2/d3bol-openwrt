@@ -1,0 +1,13 @@
+{
+	"admin/services/d3bol-split": {
+		"title": "D3BOL Split",
+		"order": 5,
+		"action": {
+			"type": "view",
+			"path": "d3bol-split/main"
+		},
+		"depends": {
+			"acl": [ "luci-app-d3bol-split" ]
+		}
+	}
+}
