@@ -1,0 +1,13 @@
+[
+ {"id":"pubg","name":"ببجي","letter":"ب","color":"#f0883e","category":"games","sub":"لعبة · UDP","enabled":false},
+ {"id":"instagram","name":"انستا","letter":"ا","color":"#d46fd6","category":"social","sub":"تواصل · سيرفرات Meta","enabled":false},
+ {"id":"facebook","name":"فيس","letter":"ف","color":"#6b8afd","category":"social","sub":"تواصل · سيرفرات Meta","enabled":false},
+ {"id":"snapchat","name":"سناب","letter":"س","color":"#a78bfa","category":"social","sub":"تواصل","enabled":false},
+ {"id":"telegram","name":"تلجرام","letter":"ت","color":"#3ba4f0","category":"social","sub":"تواصل","official":true,"enabled":false},
+ {"id":"whatsapp","name":"واتساب","letter":"و","color":"#25d366","category":"social","sub":"تواصل","enabled":false},
+ {"id":"tiktok","name":"تيك توك","letter":"ت","color":"#f43f5e","category":"social","sub":"تواصل","enabled":false},
+ {"id":"twitter","name":"تويتر","letter":"ت","color":"#94a3b8","category":"social","sub":"تواصل","enabled":false},
+ {"id":"waze","name":"ويز","letter":"و","color":"#34d399","category":"services","sub":"خرائط","enabled":false},
+ {"id":"baly","name":"بلي","letter":"ب","color":"#4ade80","category":"services","sub":"توصيل","enabled":false},
+ {"id":"speedtest","name":"سبيد تيست","letter":"س","color":"#22b8cf","category":"services","sub":"أدوات · يقيس سرعة الخط بدون VPN","enabled":false}
+]

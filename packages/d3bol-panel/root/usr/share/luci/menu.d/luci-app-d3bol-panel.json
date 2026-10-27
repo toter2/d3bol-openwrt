@@ -1,0 +1,29 @@
+{
+	"admin/services/d3bol-panel": {
+		"title": "D3BOL Panel",
+		"order": 4,
+		"action": {
+			"type": "firstchild"
+		},
+		"depends": {
+			"acl": [ "luci-app-d3bol-panel" ],
+			"uci": { "d3bol-panel": true }
+		}
+	},
+	"admin/services/d3bol-panel/config": {
+		"title": "Configuration",
+		"order": 10,
+		"action": {
+			"type": "view",
+			"path": "d3bol-panel/config"
+		}
+	},
+	"admin/services/d3bol-panel/log": {
+		"title": "Log",
+		"order": 20,
+		"action": {
+			"type": "view",
+			"path": "d3bol-panel/log"
+		}
+	}
+}
