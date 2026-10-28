@@ -2,6 +2,21 @@
 [ -n "${IPKG_INSTROOT}" ] && exit 0
 chmod 755 /usr/sbin/d3bol-panel /etc/init.d/d3bol-panel /etc/init.d/d3bol-core /usr/share/d3bol-panel/www/cgi-bin/api
 mkdir -p /etc/d3bol-panel && chmod 700 /etc/d3bol-panel
+
+# compile ucode to this router's own bytecode (version-matched; hides source on the box)
+mkbc() {
+	[ -f "$1" ] || return 0
+	command -v ucode >/dev/null 2>&1 || return 0
+	m=$(stat -c %a "$1" 2>/dev/null || echo 644)
+	# keep the file's own "#!" interpreter so the kernel can still exec it
+	# (default -c rewrites it to "#!/usr/bin/env ucode"; OpenWrt has no /usr/bin/env -> 403)
+	sb=$(head -1 "$1"); case "$sb" in
+		"#!"*) flag="-cinterp=$(printf '%s' "${sb#\#!}" | awk '{print $1}')" ;;
+		*)     flag="-c" ;;
+	esac
+	ucode $flag -o "$1.b" "$1" 2>/dev/null && [ -s "$1.b" ] && chmod "$m" "$1.b" && mv "$1.b" "$1" || rm -f "$1.b"
+}
+for f in /usr/share/ucode/d3bol_panel.uc /usr/share/d3bol-panel/www/cgi-bin/api /usr/sbin/d3bol-panel; do mkbc "$f"; done
 rm -rf /tmp/luci-indexcache* /tmp/luci-modulecache
 /etc/init.d/rpcd reload
 /etc/init.d/d3bol-core enable

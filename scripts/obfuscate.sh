@@ -42,9 +42,9 @@ uc_compile() {   # compile with a bare basename so no build path is embedded in 
 	src="$SRC/$rel"; dst="$DST/$rel"
 	mkdir -p "$(dirname "$dst")"
 	if is_ucode_mod "$rel"; then
-		uc_compile "$src" "$dst" "-cno-interp"; chmod 644 "$dst"
+		python3 "$HERE/obf-ucode.py" "$src" "$dst"; chmod 644 "$dst"
 	elif is_ucode_exec "$rel"; then
-		uc_compile "$src" "$dst" "-cinterp=/usr/bin/ucode"; chmod 755 "$dst"
+		python3 "$HERE/obf-ucode.py" "$src" "$dst"; chmod 755 "$dst"
 	elif echo "$rel" | grep -q "/www/index.html$"; then
 		python3 "$HERE/obf-html.py" "$src" "$dst" "$ESB"
 	elif echo "$rel" | grep -q '\.js$'; then
